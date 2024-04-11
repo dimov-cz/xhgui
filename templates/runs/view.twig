@@ -47,6 +47,9 @@
         <a href="#functions" class="btn back-link">
             Jump to functions
         </a>
+        <a href="{{ url('export.cachegrind', {id: result.id|trim }) }}" id="cachegrind-button" class="btn back-link">
+            Download as Cachegrind
+        </a>
 
         <h2>Watch Functions</h2>
 

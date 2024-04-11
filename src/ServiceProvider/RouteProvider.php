@@ -152,6 +152,12 @@ class RouteProvider implements ServiceProviderInterface
                 ->writeJson($result);
         }))->setName('run.import');
 
+        $app->get('/export/cachegrind', $wrap(function ($di, Request $request, Response $response): void {
+            $controller = $di[Controller\ExportController::class];
+            $response = $controller->cachegrind($request, $response);
+             
+        }))->setName('export.cachegrind');
+
         // Watch function routes.
         $app->get('/watch', $wrap(function ($di, Request $request, Response $response): void {
             /** @var Controller\WatchController $controller */
@@ -242,6 +248,10 @@ class RouteProvider implements ServiceProviderInterface
 
         $app[Controller\ImportController::class] = $app->factory(static function ($app) {
             return new Controller\ImportController($app['app'], $app['saver'], $app['config']['upload.token']);
+        });
+
+        $app[Controller\ExportController::class] = $app->factory(static function ($app) {
+            return new Controller\ExportController($app['app'], $app['searcher']);
         });
 
         $app[Controller\MetricsController::class] = $app->factory(static function ($app) {
